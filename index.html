@@ -57,5 +57,40 @@
       </div>
     </section>
   </main>
+  <script>
+    // Force downloads for local deliverable files by fetching them as blobs
+    // This helps prevent browsers from opening PDFs inline and ensures
+    // the file is saved. Requires the page to be served over HTTP(S).
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[download]');
+      if (!a) return;
+      var href = a.getAttribute('href');
+      if (!href) return;
+      // Only handle links inside Deliverables/ (local files)
+      if (!href.startsWith('Deliverables/')) return;
+      e.preventDefault();
+      fetch(href).then(function (resp) {
+        if (!resp.ok) throw new Error('Network response was not ok');
+        return resp.blob();
+      }).then(function (blob) {
+        var url = URL.createObjectURL(blob);
+        // Use download attribute value if provided, otherwise use filename from href
+        var dlAttr = a.getAttribute('download');
+        var filename = dlAttr && dlAttr !== '' ? dlAttr : decodeURIComponent(href.split('/').pop());
+        var link = document.createElement('a');
+        link.style.display = 'none';
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        // revoke after a short timeout to ensure the download has started
+        setTimeout(function () { URL.revokeObjectURL(url); }, 1000);
+      }).catch(function (err) {
+        console.error('Download failed:', err);
+        alert('Download failed: ' + err.message + '\nIf you opened the page with file:// protocol, start a local server (see instructions).');
+      });
+    });
+  </script>
 </body>
 </html>
