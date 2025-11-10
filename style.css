@@ -42,4 +42,13 @@ th, td {
   font-size: 1.25rem;
 }
 
+.indented-download {
+  margin-top: 10px;
+}
+
+.indented-doc {
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
 
