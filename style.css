@@ -14,7 +14,7 @@ header {
 }
 
 h1 {
-  margin: 10;
+  margin: 0;
   font-size: 2rem;
 }
 
@@ -38,16 +38,20 @@ th, td {
 }
 
 
+td {
+  font-size: 1rem;
+}
+
 .small {
-  font-size: 1.25rem;
+  font-size: 1rem;
 }
 
 .indented-download {
-  margin-top: 10px;
+  margin-top: 20px;
 }
 
 .indented-doc {
-  margin-top: 10px;
+  margin-top: 20px;
   margin-left: 20px;
 }
 
